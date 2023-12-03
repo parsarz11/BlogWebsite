@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .main , body{
+        background-color: #c9c8c8;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <header class="">
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark ">
+            <a class="navbar-brand" href="./index.html">blogs</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="./AddBlog.html">Add blog <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="./index.html">Blogs</a>
+                <a class="nav-item nav-link" href="#">Pricing</a>
+                <a class="nav-item nav-link disabled" href="#">Disabled</a>
+              </div>
+            </div>
+          </nav>
+    </header>
+    
+
+
+
+    <!-- addPhoto -->
+    <div class="main pt-5 pb-3">
+      <form class="container" id="blogForm">
+
+        <div class="form-group mb-3">
+            <label for="formGroupExampleInput">Article</label>
+            <textarea class="form-control" id="Article" placeholder="write article"></textarea>
+        </div>
+
+
+        <div class="form-group mb-3">
+            <label for="formGroupExampleInput">Title</label>
+            <input type="text" class="form-control" id="Title" placeholder="write Title">
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="formGroupExampleInput">author</label>
+          <input type="text" class="form-control" id="author" placeholder="write author name">
+      </div>
+
+        <div class="form-group mb-3">
+          <label for="formGroupExampleInput">photo</label>
+          <!-- <input type="text" name="fileName"> -->
+          <input type="file" class="form-control-file" id="UploadPhoto" multiple>
+        </div>
+
+
+        <label for="formGroupExampleInput">category  </label>
+        <div class="form-group input-group mb-3">
+          
+          <!-- <input type="text" name="fileName"> -->
+          <input type="text" class="form-control" placeholder="category name" id="categoryInput">
+
+          <div class="input-group-append">
+            <button class="btn btn-light" type="button" id="addCategoryBTN">Button</button>
+          </div>
+
+          
+
+        </div>
+        <div class="form-group mb-3">
+          <ul id="categoryList" class="list-group"> 
+          </ul>
+        </div>
+
+        <button type="button" id="submitBTN" class="btn btn-dark">submit</button>
+
+        
+      </form>
+    </div>
+      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+      <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+      <script src="./script.js"></script>
+</body>
+</html>
