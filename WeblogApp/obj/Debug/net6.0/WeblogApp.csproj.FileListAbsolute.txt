@@ -68,3 +68,9 @@ C:\Users\parsa\source\repos\WebLogApi\WeblogApp\obj\Debug\net6.0\WeblogApp.genru
 C:\Users\parsa\source\repos\WebLogApi\WeblogApp\obj\Debug\net6.0\ref\WeblogApp.dll
 C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll

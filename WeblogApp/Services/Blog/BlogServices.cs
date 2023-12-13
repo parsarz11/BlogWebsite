@@ -49,9 +49,20 @@ namespace WeblogApp.Services.Blog
             return _BlogData.GetBlogs();
         }
 
-        public void UpdateBlog(BlogEntity blog)
+        public void UpdateBlog(UpdateBlog blog)
         {
-            _BlogData.UpdateBlog(blog);
+            var blogs = FindBlogById(blog.Id);
+            var blogEntity = new BlogEntity()
+            {
+                Id = blog.Id,
+                Name = blogs.Name,
+                Article = blog.Article,
+                Author = blog.Author,
+                Title = blog.Title,      
+                Date = blogs.Date,
+                PhotoId = blogs.PhotoId,
+            };
+            _BlogData.UpdateBlog(blogEntity);
         }
 
 

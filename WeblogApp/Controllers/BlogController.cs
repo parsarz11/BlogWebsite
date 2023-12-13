@@ -6,7 +6,8 @@ using WeblogApp.Data.Repositories.Photo;
 using WeblogApp.Model;
 using WeblogApp.Services.Blog;
 using WeblogApp.Services.Photo;
-using static System.Net.WebRequestMethods;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WeblogApp.Controllers
 {
@@ -25,6 +26,7 @@ namespace WeblogApp.Controllers
 
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult AllBlogs() 
         {
             var blogs = _blogServices.GetBlogList();
@@ -35,8 +37,10 @@ namespace WeblogApp.Controllers
 
 
         [HttpPost]
-        public IActionResult UpdateBlog(BlogEntity blog)
+        public IActionResult UpdateBlog(UpdateBlog blog)
         {
+
+
             _blogServices.UpdateBlog(blog);
             return Ok();
         }

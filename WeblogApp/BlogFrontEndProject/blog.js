@@ -42,7 +42,7 @@ function WriteArticle()
 
 
         //<a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-        
+        $('#updateBlogLink').attr('href','./AddBlog.html?id='+result.id)
         Category(id)
 
         BlogPhoto(result.photoId)
@@ -61,7 +61,7 @@ function Category(categoryId)
 
         console.log(result)
         $.each(result, function (i, item) {
-            var category = `<a class=" badge bg-secondary text-decoration-none link-light " href="#!" style="margin-right: 6px;">${item.name}</a>`
+            var category = `<a class=" badge bg-secondary text-decoration-none link-light " href="./category.html?id=${item.id}" style="margin-right: 6px;">${item.name}</a>`
             $('#category').append(category)
         });
         

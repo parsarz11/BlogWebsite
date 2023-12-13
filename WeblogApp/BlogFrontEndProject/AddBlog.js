@@ -1,10 +1,38 @@
 const baseUrl = 'https://localhost:7207/'
-//const btn = document.querySelector("button");
+
+
+
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const id = urlParams.get('id')
+
+
+let IsBlogWantToUpdate = false
+if(urlParams.size > 0)
+{
+    IsBlogWantToUpdate =true
+
+    $.ajax({
+        url: baseUrl+`api/Blog/GetBlogById?id=${id}`,
+        type: 'GET',
+    }).done(function (response) {
+        var result = response
+        console.log(result)
+
+        document.querySelector("#Title").value = String(result.title)
+            
+        document.querySelector("#Article").value = result.article
+
+        document.querySelector("#author").value = String(result.author)
+
+        $('#photoDiv').addClass('invisible')
+    })
+
+}
+
+
 const categoryList = []
-
-
-
-
 $('#addCategoryBTN').on('click',function(e) {
     addCategory()
 })
@@ -38,35 +66,38 @@ function addCategory() {
 //             }));
 //         });
 //     })
+    
+    
 var filename = ''    
 $("#submitBTN").on( "click",function(e) {
     
-    console.log('SendRequest is worked')
+    
     SendRequest(filename)
-    console.log('categoryList',categoryList)
-    var categoryListOBJ = {}
-    $.ajax({
-        url: baseUrl+'api/Category/AddCategoriesToblog?blogId=1',
-        type: 'POST',
-        method: 'POST',
-        contentType:'application/json; charset=utf-8',
-        //processData: false, 
-        //contentType: false, 
-        data:JSON.stringify(categoryList),
-        
-    }).done(function(result) {
+    if(IsBlogWantToUpdate){
 
-    console.log('result' , result)
-    });
+    
+        console.log('categoryList',categoryList)
+        $.ajax({
+            url: baseUrl+'api/Category/AddCategoriesToblog?blogId=0',
+            type: 'POST',
+            method: 'POST',
+            contentType:'application/json; charset=utf-8',
+            //processData: false, 
+            //contentType: false, 
+            data:JSON.stringify(categoryList),
+            
+        }).done(function(result) {
+
+        });
+    }
 });
 
 
 $('#UploadPhoto').on("change",function(e){
-    console.log('photo is changed')
-    
+
     
     SendPhoto()
-    console.log('filename = ',filename)
+
 })
 
 function SendPhoto(){
@@ -126,20 +157,45 @@ function SendRequest(photoName){
     
     var author_input = document.querySelector("#author").value
     //var selectionOption = $('#CategorySelection').val();
-    var blogObj = {
+
+    console.log(IsBlogWantToUpdate)
+
+    var blogUrl= ''
+    blogObj ={}
+    if(IsBlogWantToUpdate)
+    {
+         blogUrl = baseUrl+'api/Blog/UpdateBlog'
+
+         blogObj = {
             
-        "name": '0',
-        "article": article_input,
-        "author": author_input,
-        "title": title_input,
-        "photoName": photoName,
+            "id": id,
+            "name": "0",
+            "article": article_input,
+            "author": author_input,
+            "title": title_input,    
+        }
+        console.log('updateeee')
+    }else{
+        blogUrl = baseUrl+'api/Blog/AddBLog'
+        
+        blogObj = {
+            "id":id,
+            "name": '0',
+            "article": article_input,
+            "author": author_input,
+            "title": title_input,
+            
+        }
+
+        console.log('addddddd')
     }
+    
     
           
 
     $.ajax({
         method: 'POST',
-        url: baseUrl+'api/Blog/AddBLog',
+        url: blogUrl,
         contentType:"application/json; charset=utf-8",
 
         data: JSON.stringify(blogObj),
@@ -148,7 +204,7 @@ function SendRequest(photoName){
     }).done(function (result) {
 
         console.log(result)
-        //location.reload()
+        location.reload()
     });
     
 }

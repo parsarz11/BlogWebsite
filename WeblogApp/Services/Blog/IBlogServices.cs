@@ -10,7 +10,7 @@ namespace WeblogApp.Services.Blog
         public void AddBlog(BlogDTO blog);
         public void DeleteBlog(int Id);
         public List<BlogEntity> GetBlogList();
-        public void UpdateBlog(BlogEntity blog);
+        public void UpdateBlog(UpdateBlog blog);
         public BlogEntity FindBlogById(int id);
         public void AddCategoriesToBlog(int blogId, int categoryId);
         public List<BlogCategory> GetBlogCategories();

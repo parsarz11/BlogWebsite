@@ -12,12 +12,12 @@ namespace WeblogApp.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryServices _categoryServices;
-        private readonly IBlogServices _blogServices;
-        public CategoryController(ICategoryServices categoryData, IBlogServices blogServices)
+        
+        public CategoryController(ICategoryServices categoryData)
         {
 
             _categoryServices = categoryData;
-            _blogServices = blogServices;
+            
         }
 
 
@@ -25,7 +25,7 @@ namespace WeblogApp.Controllers
         public IActionResult Getcategories()
         {
 
-            return Ok(_categoryServices);
+            return Ok(_categoryServices.GetCategories());
         }
 
         [HttpPost]
@@ -59,7 +59,7 @@ namespace WeblogApp.Controllers
         [HttpPost]
         public IActionResult AddCategoriesToBlog(List<string> categories,int blogId = 0)
         {
-
+            _categoryServices.AddCategoriesToBlog(blogId,categories);
             return Ok();
         }
 
@@ -67,6 +67,13 @@ namespace WeblogApp.Controllers
         public IActionResult FindCategoriesByBLog(int blogId)
         {
             var result = _categoryServices.FindCategoryByBlogs(blogId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public IActionResult FindBlogsByCategoryId(int categoryId)
+        {
+            var result = _categoryServices.FindBlogsByCategoryId(categoryId);
             return Ok(result);
         }
     }

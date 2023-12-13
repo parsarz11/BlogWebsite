@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using WeblogApp.BlogData.Context;
 using WeblogApp.BlogData.Entities;
 using WeblogApp.Data.Entities;
@@ -47,7 +48,7 @@ namespace WeblogApp.Data.Repositories.Blog
 
         public List<BlogEntity> GetBlogs()
         {
-            var blogs =  _databaseContext.Blogs.ToList();
+            var blogs =  _databaseContext.Blogs.AsNoTracking().ToList();
             if (blogs.Count() == 0)
             {
                 throw new NotFoundException("no blogs exist");

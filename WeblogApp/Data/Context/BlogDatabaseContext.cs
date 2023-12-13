@@ -6,7 +6,7 @@ namespace WeblogApp.BlogData.Context
 {
     public class BlogDatabaseContext : DbContext
     {
-        public BlogDatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public BlogDatabaseContext(DbContextOptions<BlogDatabaseContext> dbContextOptions) : base(dbContextOptions)
         {
         }
 

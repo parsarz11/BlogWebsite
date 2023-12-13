@@ -1,4 +1,5 @@
-﻿using WeblogApp.Data.Entities;
+﻿using WeblogApp.BlogData.Entities;
+using WeblogApp.Data.Entities;
 using WeblogApp.Data.Repositories.Blog;
 using WeblogApp.Data.Repositories.Category;
 using WeblogApp.Exceptions;
@@ -78,6 +79,32 @@ namespace WeblogApp.Services.category
             _categoryData.AddblogCategories(blogId, categories);
 
                 
+        }
+
+
+
+        public List<BlogEntity> FindBlogsByCategoryId(int categoryId)
+        {
+
+            var blogIds = _blogServices.GetBlogCategories().Where(x => x.categoryId == categoryId).Select(y => y.blogId).ToList();
+            var blogs = _blogServices.GetBlogList();
+
+
+            if (blogIds.Count() == 0)
+            {
+                throw new NotFoundException();
+            }
+
+
+            var blogList = new List<BlogEntity>();
+            foreach (var item in blogIds)
+            {
+                blogList.Add(blogs.Where(x => x.Id == item).FirstOrDefault());
+            };
+
+
+            return blogs;
+
         }
     }
 }
