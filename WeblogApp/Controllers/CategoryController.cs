@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.Reflection.Metadata;
 using WeblogApp.Data.Entities;
-using WeblogApp.Data.Repositories.Category;
+using WeblogApp.Model;
 using WeblogApp.Services.Blog;
 using WeblogApp.Services.category;
+using System.IO;
 
 namespace WeblogApp.Controllers
 {
@@ -24,11 +29,11 @@ namespace WeblogApp.Controllers
         [HttpGet]
         public IActionResult Getcategories()
         {
-
             return Ok(_categoryServices.GetCategories());
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult AddCategory(Category blogCategory) 
         {
             _categoryServices.AddCategory(blogCategory);
@@ -37,12 +42,14 @@ namespace WeblogApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult EditCategory(Category blogCategory)
         {
             _categoryServices.EditCategory(blogCategory);
             return Ok();
         }
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult DeleteCategory(int id)
         {
             _categoryServices.DeleteCategory(id);
@@ -57,6 +64,7 @@ namespace WeblogApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult AddCategoriesToBlog(List<string> categories,int blogId = 0)
         {
             _categoryServices.AddCategoriesToBlog(blogId,categories);
@@ -76,5 +84,7 @@ namespace WeblogApp.Controllers
             var result = _categoryServices.FindBlogsByCategoryId(categoryId);
             return Ok(result);
         }
+
+        
     }
 }

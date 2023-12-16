@@ -9,18 +9,20 @@ namespace WeblogApp.Services.category
 {
     public class CategoryServices:ICategoryServices
     {
-        private readonly IBlogServices _blogServices;
+        private readonly IBlogsData _blogsData;
         private readonly ICategoriesData _categoryData;
-        public CategoryServices(IBlogServices blogData,ICategoriesData categoriesData)
+        public CategoryServices(IBlogsData blogData,ICategoriesData categoriesData)
         {
-            _blogServices = blogData;
+            _blogsData = blogData;
             _categoryData = categoriesData;
         }
 
+
+        
         public List<Category> FindCategoryByBlogs(int blogId)
         {
 
-            var categoryIds = _blogServices.GetBlogCategories().Where(x => x.blogId == blogId).Select(y => y.categoryId).ToList();
+            var categoryIds = GetBlogCategories().Where(x => x.blogId == blogId).Select(y => y.categoryId).ToList();
             var categories = _categoryData.GetCategory();
 
 
@@ -70,12 +72,17 @@ namespace WeblogApp.Services.category
         {
             if (blogId == 0)
             {
-                blogId = _blogServices.GetBlogList().Select(x => x.Id).LastOrDefault();
-                blogId = blogId + 1;
-
+                var lastBlogId = _blogsData.GetBlogs().Select(x => x.Id).LastOrDefault();
+                blogId = lastBlogId;
+                
 
             }
+            bool isBlogExist = _blogsData.GetBlogs().Any(x => x.Id == blogId);
 
+            if (!isBlogExist)
+            {
+                throw new NotFoundException("No Blogs found to add cateogry to");
+            }
             _categoryData.AddblogCategories(blogId, categories);
 
                 
@@ -86,8 +93,8 @@ namespace WeblogApp.Services.category
         public List<BlogEntity> FindBlogsByCategoryId(int categoryId)
         {
 
-            var blogIds = _blogServices.GetBlogCategories().Where(x => x.categoryId == categoryId).Select(y => y.blogId).ToList();
-            var blogs = _blogServices.GetBlogList();
+            var blogIds = GetBlogCategories().Where(x => x.categoryId == categoryId).Select(y => y.blogId).ToList();
+            var blogs = _blogsData.GetBlogs();
 
 
             if (blogIds.Count() == 0)
@@ -105,6 +112,11 @@ namespace WeblogApp.Services.category
 
             return blogs;
 
+        }
+        
+        public List<BlogCategory> GetBlogCategories()
+        {
+            return _blogsData.GetBlogCategories();
         }
     }
 }

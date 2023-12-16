@@ -1,13 +1,20 @@
-ShowBlogs()
-
-function ShowBlogs(){
-    //document.cookie = 'token=Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ1c2VyQGV4YW1wbGUuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJQYXJzYXJ6MTEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsIm5iZiI6MTcwMjQ4NTU0OSwiZXhwIjoxNzAyNDg3MzQwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTY4IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE2OCJ9.9oDZK3OMrlXhln1-V4wR-CK-mJMKDVRueTddX_TBAKc'
-    const cookieValue = document.cookie
+const cookieValue = document.cookie
     .split("; ")
     .find((row) => row.startsWith("token="))
     ?.split("=")[1];
+if(cookieValue == '')
+{
+    $('#signOutBTN').addClass('invisible')
+    $('#loginBTN').removeClass('invisible')
+}
+if(cookieValue != '')
+{
+    $('#loginBTN').addClass('invisible')
+}
+ShowBlogs()
 
-    console.log(cookieValue)
+function ShowBlogs(){
+
     const baseUrl = 'https://localhost:7207/api/'
     $.ajax({
         url: baseUrl+'Blog/AllBlogs',
@@ -23,8 +30,7 @@ function ShowBlogs(){
 
 
 function WriteBlogs(result){
-    console.log('result:')
-    console.log(result)
+
 
 
     const cards =  `

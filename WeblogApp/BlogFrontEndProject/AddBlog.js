@@ -1,14 +1,26 @@
+const cookieValue = document.cookie.split("; ").find((row) => row.startsWith("token="))?.split("=")[1];
+if(cookieValue == '')
+{
+
+    window.location.replace("./loginPage.html");
+}
+if(cookieValue != '')
+{
+    $('#loginBTN').addClass('invisible')
+}
+
+
 const baseUrl = 'https://localhost:7207/'
-
-
-
-
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const id = urlParams.get('id')
 
-
+var filename = ''    
+const categoryList = []
 let IsBlogWantToUpdate = false
+let isWantInsert = false
+var blogInputClickCount = 0
+
 if(urlParams.size > 0)
 {
     IsBlogWantToUpdate =true
@@ -18,7 +30,7 @@ if(urlParams.size > 0)
         type: 'GET',
     }).done(function (response) {
         var result = response
-        console.log(result)
+        
 
         document.querySelector("#Title").value = String(result.title)
             
@@ -32,65 +44,18 @@ if(urlParams.size > 0)
 }
 
 
-const categoryList = []
-$('#addCategoryBTN').on('click',function(e) {
-    addCategory()
-})
-function addCategory() {
-    let categoryInput = $('#categoryInput').val()
-
-
-
-    $('#categoryList').append(`<li class="list-group-item">${categoryInput}</li>`)
-    categoryList.push(categoryInput)
-    $('#categoryInput').val('')
-}
-// $.ajax({
-//         method: 'GET',
-//         url: baseUrl+'api/Category/Getcategories',
-//         //contentType:"application/json; charset=utf-8",
-
-//         //data: JSON.stringify(blogObj),
-        
-        
-//     }).done(function (result) {
-
-//         console.log(result)
-//         console.log(result.id)
-//         console.log(result.name)
-        
-//         $.each(result, function (i, item) {
-//             $('#CategorySelection').append($('<option>', { 
-//                 value: item.id,
-//                 text : item.name 
-//             }));
-//         });
-//     })
-    
-    
-var filename = ''    
 $("#submitBTN").on( "click",function(e) {
-    
-    
-    SendRequest(filename)
-    if(IsBlogWantToUpdate){
 
-    
-        console.log('categoryList',categoryList)
-        $.ajax({
-            url: baseUrl+'api/Category/AddCategoriesToblog?blogId=0',
-            type: 'POST',
-            method: 'POST',
-            contentType:'application/json; charset=utf-8',
-            //processData: false, 
-            //contentType: false, 
-            data:JSON.stringify(categoryList),
-            
-        }).done(function(result) {
+    if (isWantInsert) {
+        uploadBlog()
 
-        });
+    }else{
+        SendRequest(filename)
     }
+    
+
 });
+
 
 
 $('#UploadPhoto').on("change",function(e){
@@ -100,55 +65,85 @@ $('#UploadPhoto').on("change",function(e){
 
 })
 
+
+$('#addCategoryBTN').on('click',function(e) {
+    addCategory()
+})
+
+
+$('#blogInputsBTN').on('click',function(e) {
+    if(blogInputClickCount % 2 === 0)
+    {
+        $('#blogInputsBTN').val('insert')
+        $('#blogInputDiv').addClass('invisible')
+        $('#insertBlogDiv').removeClass('invisible')
+
+        isWantInsert = true
+        document.querySelector('#blogInputsBTN').value = 'Write'
+    }else{
+
+        isWantInsert = false
+        document.querySelector('#blogInputsBTN').value = 'Insert'
+        $('#blogInputDiv').removeClass('invisible')
+        $('#insertBlogDiv').addClass('invisible')
+
+    }
+    
+    
+    blogInputClickCount++
+})
+
+function addCategory() {
+
+    let categoryInput = $('#categoryInput').val()
+    $('#categoryList').append(`<li class="list-group-item">${categoryInput}</li>`)
+    categoryList.push(categoryInput)
+    $('#categoryInput').val('')
+}
+
+    
+
+//this function send blog photo
 function SendPhoto(){
     const file = document.getElementById('UploadPhoto').files[0];
 
     $('#submitBTN').addClass('disabled')
 
-    console.log('filename:',file.name)
-    var isUploaded = false
     
+    //get photo File data and add it to request
     var data = new FormData();   
     data.append( 'file' , file);
     data.append('fileName',file.name)       
     filename = file.name
-    
-    console.log("submitted")
+
+    //ajax call for Upload photo
     $.ajax({
         url: baseUrl+'api/Blog/UploadPhoto',
         type: 'POST',
         contentType:"multipart/form-data",
-        //processData: false, 
-        //contentType: false, 
         data:data,
         cache: false,
         contentType: false,
-        processData: false
-    }).done(function(result) {
+        processData: false,
+        headers: {"Authorization": cookieValue}
+    }).done(function(isUploaded) {
 
-        isUploaded = result
+
+        
         if (isUploaded == false) {
             $('#submitBTN').addClass('disabled')
         }if(isUploaded == true){
             $('#submitBTN').removeClass('disabled')
         }
-
-
-
     });
+
 }
-// btn.addEventListener("click", () => {
+
+
+//send request for add/update blog
 function SendRequest(photoName){
 
-
-    console.log("event raised")
-
-    //var reader = new FileReader();
-    
-
-    
-    //bvar name_input = document.querySelector("#Name").value
-    
+    //get values of fields
     var article_input = document.querySelector("#Article").value
     
     var title_input = document.querySelector("#Title").value
@@ -156,16 +151,17 @@ function SendRequest(photoName){
     var photoUpload_input = document.querySelector("#UploadPhoto").value
     
     var author_input = document.querySelector("#author").value
-    //var selectionOption = $('#CategorySelection').val();
 
-    console.log(IsBlogWantToUpdate)
 
+    //initailize blog url and object
     var blogUrl= ''
     blogObj ={}
     if(IsBlogWantToUpdate)
     {
-         blogUrl = baseUrl+'api/Blog/UpdateBlog'
+        //update blog url
+        blogUrl = baseUrl+'api/Blog/UpdateBlog'
 
+        //update blog object
          blogObj = {
             
             "id": id,
@@ -174,56 +170,92 @@ function SendRequest(photoName){
             "author": author_input,
             "title": title_input,    
         }
-        console.log('updateeee')
+
     }else{
+        //add blog url
         blogUrl = baseUrl+'api/Blog/AddBLog'
         
+        //add blog object
         blogObj = {
-            "id":id,
             "name": '0',
             "article": article_input,
             "author": author_input,
             "title": title_input,
-            
+            "photoName": photoName,
         }
 
-        console.log('addddddd')
+        
+        
     }
     
     
           
-
+    //ajax call for Add/Update blog 
     $.ajax({
         method: 'POST',
         url: blogUrl,
         contentType:"application/json; charset=utf-8",
 
         data: JSON.stringify(blogObj),
-        
+        headers: {"Authorization": cookieValue}
         
     }).done(function (result) {
+        AddCategoriesToBlog()
 
-        console.log(result)
-        location.reload()
+        setTimeout(location.reload(), 3000);
+        
     });
     
 }
-var myFile = ''
-function readURL( e ) {
-               
-    if ( this.files && this.files[0] ) {
-       
-        var reader = new FileReader();           
-        reader.onload = ( function( e ) {
-            $( 'img' ).attr( 'src' , e.target.result );
-        });           
-        reader.readAsDataURL( this.files[0] );
-       
-        myFile = this.files[0];      // store file in global variable
-       
-    }
-   
+//this function Add categories to blog
+function AddCategoriesToBlog()
+{
+    //ajax call for add categories to blog
+    $.ajax({
+        url: baseUrl+'api/Category/AddCategoriesToblog?blogId=0',
+        type: 'POST',
+        method: 'POST',
+        contentType:'application/json; charset=utf-8',
+        data:JSON.stringify(categoryList),
+        headers: {"Authorization": cookieValue}
+    }).done(function(result) {
+
+    });
 }
 
+
+function uploadBlog() {
+    const file = document.getElementById('uploadFile').files[0];
+
+    $('#submitBTN').addClass('disabled')
+
+    
+    //get photo File data and add it to request
+    var data = new FormData();   
+    data.append( 'file' , file);
+    data.append('fileName',file.name)       
+    filename = file.name
+
+    //ajax call for Upload photo
+    $.ajax({
+        url: baseUrl+'api/Blog/AddBlogByFile',
+        type: 'POST',
+        contentType:"multipart/form-data",
+        data:data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        headers: {"Authorization": cookieValue}
+    }).done(function(isUploaded) {
+
+        if (isUploaded == false) {
+            $('#submitBTN').addClass('disabled')
+        }if(isUploaded == true){
+            $('#submitBTN').removeClass('disabled')
+        }
+
+        setTimeout(location.reload(), 3000);
+    });
+}
 
     

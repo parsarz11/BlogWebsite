@@ -24,22 +24,22 @@ namespace WeblogApp.MiddleWares
             }
             catch (Exception ex)
             {
-                await GetExResponse(httpContext, ex.Message);
+                await GetExResponse(httpContext, ex);
             }
         }
 
 
-        private Task GetExResponse(HttpContext httpContext, string ExMessage)
+        private Task GetExResponse(HttpContext httpContext, Exception ex)
         {
             httpContext.Response.ContentType = "Application/json";
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             return httpContext.Response.WriteAsync(new ExceptionDTO
             {
-                Message = ExMessage,
+                Message = ex.Message,
                 StatusCode = httpContext.Response.StatusCode,
-
-            }.ToString());
+                Datas = ex.Data,
+            }.ToString()) ;
         }
     }
 

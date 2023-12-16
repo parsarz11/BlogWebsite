@@ -42,7 +42,7 @@ namespace IdentityBugetoTest.Models
                 // Get secret key
                 var key = System.Text.Encoding.ASCII.GetBytes(jwtSettings.IssuerSigningKey);
                 Guid Id = Guid.Empty;
-                DateTime expireTime = DateTime.UtcNow.AddHours(4);
+                DateTime expireTime = DateTime.UtcNow.AddDays(10);
                 UserToken.Validaty = expireTime.TimeOfDay;
                 //----
                 var JWToken = new JwtSecurityToken

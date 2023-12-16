@@ -13,5 +13,6 @@ namespace WeblogApp.Services.category
         public void DeleteCategory(int id);
         public void AddCategoriesToBlog(int blogId, List<string> categories);
         public List<BlogEntity> FindBlogsByCategoryId(int categoryId);
+        public List<BlogCategory> GetBlogCategories();
     }
 }

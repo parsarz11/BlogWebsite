@@ -1,8 +1,7 @@
-﻿using IdentityBugetoTest.Models.DTOs;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WeblogApp.Data.Repositories;
-using WeblogApp.Model;
+using WeblogApp.Model.DTOs;
 
 namespace WeblogApp.Controllers
 {
@@ -27,7 +26,7 @@ namespace WeblogApp.Controllers
         [HttpPost]
         public IActionResult Login(LoginDTO loginDTO) 
         {
-            return Ok(_userAccounting.LogIn(loginDTO));
+            return Ok(_userAccounting.logIn(loginDTO));
         }
     }
 }

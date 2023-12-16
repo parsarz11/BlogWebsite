@@ -8,6 +8,8 @@ using WeblogApp.Services.Blog;
 using WeblogApp.Services.Photo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using WeblogApp.Model.DTOs;
+using System.Globalization;
 
 namespace WeblogApp.Controllers
 {
@@ -26,7 +28,7 @@ namespace WeblogApp.Controllers
 
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        
         public IActionResult AllBlogs() 
         {
             var blogs = _blogServices.GetBlogList();
@@ -37,6 +39,7 @@ namespace WeblogApp.Controllers
 
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult UpdateBlog(UpdateBlog blog)
         {
 
@@ -47,6 +50,7 @@ namespace WeblogApp.Controllers
 
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult DeleteBlog(int id)
         {
             _blogServices.DeleteBlog(id);
@@ -55,7 +59,8 @@ namespace WeblogApp.Controllers
 
 
         [HttpPost]
-        public IActionResult AddBLog(BlogDTO blog)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public IActionResult AddBLog(CreateBlogDTO blog)
         {
 
             _blogServices.AddBlog(blog);
@@ -65,6 +70,7 @@ namespace WeblogApp.Controllers
 
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> UploadPhoto([FromForm]FileUploadModel photo)
         {
             bool isUploaded = _photoServices.PhotoUpload(photo);
@@ -88,6 +94,13 @@ namespace WeblogApp.Controllers
             return Ok(_blogServices.FindBlogById(id));
 
         }
-        
+
+        [HttpPost]
+        public IActionResult AddBlogByFile([FromForm]FileUploadModel uploadModel)
+        {
+            
+            _blogServices.AddBlogByFile(uploadModel);
+            return Ok();
+        }
     }
 }

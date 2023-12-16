@@ -1,12 +1,12 @@
-﻿namespace WeblogApp.BlogData.Entities
+﻿namespace WeblogApp.Model.DTOs
 {
-    public class BlogEntity
+    public class BLogDTO
     {
         public int Id { get; set; }
         public string Article { get; set; }
         public string Author { get; set; }
         public string Title { get; set; }
-        public DateTime Date { get; set; } = DateTime.Now;
+        public string Date { get; set; }
         public int PhotoId { get; set; }
     }
 }

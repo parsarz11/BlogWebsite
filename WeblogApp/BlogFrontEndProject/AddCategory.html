@@ -19,6 +19,8 @@
                 <a class="nav-item nav-link" href="./index.html">Blogs</a>
                 <a class="nav-item nav-link active" href="./AddCategory.html">Add Category<span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link " href="./Categories.html">Categories</a>
+                <button class="nav-item nav-link text-danger" onclick="document.cookie = 'token='" id="signOutBTN">Sign Out</button>
+                <a class="nav-item  nav-link" href="./loginPage.html" class="invisible" id="loginBTN">login|Register</a>
               </div>
             </div>
           </nav>
@@ -29,38 +31,92 @@
         <form class="container" id="blogForm">
   
           <div class="form-group mb-3">
-              <label for="formGroupExampleInput">category name </label>
+              <label for="categoryName">category name</label>
               <input class="form-control" id="categoryInput" placeholder="write category name"></input>
           </div>
-          <button type="button" class="btn btn-dark"> submit form</button>
+          <button type="button" class="btn btn-dark">submit</button>
         </form>
     </div>
 
 
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script>
-        
+        const cookieValue = document.cookie.split("; ").find((row) => row.startsWith("token="))?.split("=")[1];
+        if(cookieValue == '')
+        {
+            window.location.replace("./loginPage.html");
+        }
+        if(cookieValue != '')
+        {
+            $('#loginBTN').addClass('invisible')
+        }
 
+
+
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const id = urlParams.get('id')
+        var isWantToUpdate = false
+
+        if(urlParams.size > 0)
+        {
+            isWantToUpdate = true
+
+            $.ajax({
+            url: `https://localhost:7207/api/Category/GetCategoryById?id=${id}`,
+            type: 'GET',
+            }).done(function (result) {
+                
+                console.log(result)
+
+                document.querySelector("#categoryInput").value = String(result.name)
+
+            })
+        }
         $('button').on('click',function(e){
             
             var categoryInput = $('#categoryInput').val()
-            const categoryOBJ = {
-                name: categoryInput
-            }
-            
-            $.ajax({
-            url: 'https://localhost:7207/api/Category/AddCategory',
-            type: 'POST',
-            method: 'POST',
-            contentType:'application/json; charset=utf-8',
-            //processData: false, 
-            //contentType: false, 
-            data:JSON.stringify(categoryOBJ),
-        
-        }).done(function(result) {
+            if (isWantToUpdate) {
 
-            location.reload()
-        });
+                
+                const categoryOBJ = {
+                    id: id,
+                    name: categoryInput
+                }
+                
+                $.ajax({
+                url: 'https://localhost:7207/api/Category/EditCategory',
+                type: 'POST',
+                method: 'POST',
+                contentType:'application/json; charset=utf-8',
+                data:JSON.stringify(categoryOBJ),
+                headers: {"Authorization": cookieValue}
+                }).done(function(result) {
+
+                    location.reload()
+                });
+            }
+            else{
+
+            
+                
+                const categoryOBJ = {
+                    name: categoryInput
+                }
+                
+                $.ajax({
+                url: 'https://localhost:7207/api/Category/AddCategory',
+                type: 'POST',
+                method: 'POST',
+                contentType:'application/json; charset=utf-8', 
+                data:JSON.stringify(categoryOBJ),
+                headers: {"Authorization": cookieValue}
+                }).done(function(result) {
+
+                    location.reload()
+                });
+        }
         })
     </script>
 </body>

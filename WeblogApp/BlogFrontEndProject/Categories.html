@@ -21,6 +21,8 @@
                 <a class="nav-item nav-link" href="./index.html">Blogs</a>
                 <a class="nav-item nav-link " href="./AddCategory.html">Add Category</a>
                 <a class="nav-item nav-link active" href="./Categories.html">Categories<span class="sr-only">(current)</span></a>
+                <button class="nav-item nav-link text-danger" onclick="document.cookie = 'token='" id="signOutBTN">Sign Out</button>
+                <a class="nav-item  nav-link" href="./loginPage.html" class="invisible" id="loginBTN">login|Register</a>
               </div>
             </div>
           </nav>
@@ -50,58 +52,6 @@
 
 
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
-    <script >
-        window.onload = getBlogs()
-
-        function getBlogs(){
-
-
-
-            const baseUrl = 'https://localhost:7207/api/'
-            $.ajax({
-                url: baseUrl+`Category/Getcategories`,
-                type: 'GET',
-            }).done(function (result) {
-
-                console.log(result)
-                $.each(result, function (i, item) {
-                    CreateTable(item,i)
-                });
-                
-                
-            })
-        }
-
-
-
-        function CreateTable(result,i){
-
-            const tcontent = `
-            <tr>
-                <th scope="row"><a href="./category.html?id=${result.id}">${result.id}</a></th>
-                <td>${result.name}</td>
-                <td><a href="./AddCategory.html?id=${result.id}"><button class="btn btn-primary">update</button></a></td>
-                
-            </tr>`
-            
-            $('#categoriesTable').append(tcontent)
-        }
-
-
-        $('#ShowDeleteForm').on('click',function(e){
-              $('form').removeClass('invisible')
-            })
-
-
-            $('#deleteCategory').on('click',function(e){
-
-              var categoryDeleteId = $('#categoryId').val()
-              $.ajax({
-                url: 'https://localhost:7207/api/Category/DeleteCategory?id='+ categoryDeleteId,
-                type: 'GET',
-              })
-            })
-        // <td><button class="btn btn-danger DeleteCategory" id="${result.id}">Delete</button></td>
-    </script>
+    <script src="./categories.js"></script>
 </body>
 </html>
