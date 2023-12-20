@@ -1,9 +1,9 @@
-﻿namespace IdentityBugetoTest.Models
+﻿namespace WeblogApp.Services.JwtServices
 {
     public class JwtSettings
     {
-        public bool ValidateIssuerSigningKey { get; set;}
-        public string IssuerSigningKey { get; set;}
+        public bool ValidateIssuerSigningKey { get; set; }
+        public string IssuerSigningKey { get; set; }
         public bool ValidateIssuer
         {
             get;

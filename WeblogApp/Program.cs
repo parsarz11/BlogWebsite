@@ -1,4 +1,3 @@
-using IdentityBugetoTest.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -7,7 +6,6 @@ using Microsoft.IdentityModel.Tokens;
 using WeblogApp.BlogData.Context;
 using WeblogApp.Data.Context;
 using WeblogApp.Data.Entities;
-using WeblogApp.Data.Repositories;
 using WeblogApp.Data.Repositories.Blog;
 using WeblogApp.Data.Repositories.category;
 using WeblogApp.Data.Repositories.Category;
@@ -16,7 +14,10 @@ using WeblogApp.MiddleWares;
 using WeblogApp.MiddleWares.ExceptionHandlerMiddleWare;
 using WeblogApp.Services.Blog;
 using WeblogApp.Services.category;
+using WeblogApp.Services.JwtServices;
+using WeblogApp.Services.mailService;
 using WeblogApp.Services.Photo;
+using WeblogApp.Services.userAccounting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,7 @@ builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 
 builder.Services.AddScoped<IUserAccounting, Accounting>();
 
+builder.Services.AddScoped<mailServices>();
 
 
 builder.Services.AddDbContext<BlogDatabaseContext>(config =>
@@ -137,6 +139,8 @@ app.UseCors(x => x
 //    credentials: true,
 //    sameSite: 'none'
 //}));
+
+
 
 app.UseHttpsRedirection();
 

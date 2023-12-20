@@ -96,6 +96,7 @@ namespace WeblogApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult AddBlogByFile([FromForm]FileUploadModel uploadModel)
         {
             

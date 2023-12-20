@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WeblogApp.Model.DTOs
+namespace WeblogApp.Model.DTOs.AccountingDTO
 {
     public class RegisterDTO
     {
@@ -11,5 +11,7 @@ namespace WeblogApp.Model.DTOs
         //[Required]
         //[DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public string domainName { get; set; }
     }
 }

@@ -94,7 +94,7 @@ namespace WeblogApp.Services.category
         {
 
             var blogIds = GetBlogCategories().Where(x => x.categoryId == categoryId).Select(y => y.blogId).ToList();
-            var blogs = _blogsData.GetBlogs();
+            var blogsList = _blogsData.GetBlogs();
 
 
             if (blogIds.Count() == 0)
@@ -103,14 +103,14 @@ namespace WeblogApp.Services.category
             }
 
 
-            var blogList = new List<BlogEntity>();
+            var selectedBlogs = new List<BlogEntity>();
             foreach (var item in blogIds)
             {
-                blogList.Add(blogs.Where(x => x.Id == item).FirstOrDefault());
+                selectedBlogs.Add(blogsList.Where(x => x.Id == item).FirstOrDefault());
             };
 
 
-            return blogs;
+            return selectedBlogs;
 
         }
         

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace WeblogApp.Model.DTOs
+namespace WeblogApp.Model.DTOs.AccountingDTO
 {
     public class LoginDTO
     {

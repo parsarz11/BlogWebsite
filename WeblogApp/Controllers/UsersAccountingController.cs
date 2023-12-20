@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WeblogApp.Data.Repositories;
-using WeblogApp.Model.DTOs;
+using WeblogApp.Model.DTOs.AccountingDTO;
+using WeblogApp.Services.userAccounting;
 
 namespace WeblogApp.Controllers
 {
@@ -20,7 +20,7 @@ namespace WeblogApp.Controllers
         public IActionResult RegisterUser(RegisterDTO identityUser)
         {
             var result = _userAccounting.Register(identityUser);
-            return View(result);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -28,5 +28,28 @@ namespace WeblogApp.Controllers
         {
             return Ok(_userAccounting.logIn(loginDTO));
         }
+
+        [HttpPost]
+        public IActionResult confirmEmail(confirmEmailDTO confirmEmail)
+        {
+            _userAccounting.confirmEmail(confirmEmail.userId, confirmEmail.token);
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult forgetPassword(ForgetPasswordDTO forgetPasswordDTO)
+        {
+            _userAccounting.forgetPassword(forgetPasswordDTO.email);
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult resetPassword(resetPasswordDTO passwordDTO)
+        {
+            _userAccounting.ResetPassword(passwordDTO);
+            return Ok();
+        }
+
+        
     }
 }

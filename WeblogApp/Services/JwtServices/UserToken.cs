@@ -1,4 +1,4 @@
-﻿namespace IdentityBugetoTest.Models
+﻿namespace WeblogApp.Services.JwtServices
 {
     public class UserToken
     {

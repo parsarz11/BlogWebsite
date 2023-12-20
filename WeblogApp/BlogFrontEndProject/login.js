@@ -4,6 +4,9 @@ $('#signUpBTN').on('click', function(e){
     IsWantToLogin = false
 })
 
+
+
+
 $('#formSubmit').on('click',function(e){
     var userName = $('#userNameInput').val()
     var password = $('#passwordInput').val()
@@ -12,10 +15,12 @@ $('#formSubmit').on('click',function(e){
     
     if(!IsWantToLogin)
     {
+        $("#forgetPasswordBTN").AddClass("invisible")
         var registerOBJ = {
             "userName": userName,
             "email": email,
-            "password": password
+            "password": password,
+            "domainName":window.location.origin,
         }
         console.log(registerOBJ)
         $.ajax({
@@ -30,8 +35,7 @@ $('#formSubmit').on('click',function(e){
         });
     }
     else{
-
-
+        $("#forgetPasswordBTN").removeClass("invisible")
         var loginOBJ = {
             
             "userName": userName,
@@ -54,5 +58,9 @@ $('#formSubmit').on('click',function(e){
         });
     }
 })
+
+
+
+
 
 
