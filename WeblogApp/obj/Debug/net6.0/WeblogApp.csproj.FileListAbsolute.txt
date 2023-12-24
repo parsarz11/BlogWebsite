@@ -77,3 +77,4 @@ C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\Microsoft.Exten
 C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\MailKit.dll
 C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\MimeKit.dll
 C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\parsa\source\repos\WebLogApi\WeblogApp\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.Google.dll

@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "snauU8EOUjV3F3/elWJNod55TG14UI6x+CtmksrPr604rusBdIxwYJPHSUizuu2NUlnHTUUfG6PrjcwOSYl5vg==",
+  "dgSpecHash": "qkVTqI31QoBpUQ4S2H6lNLTAx7la2VXn9MSMk5nxZefjQF390c9oHpR6gx4Lvc8AqKl45Ze63wxKGXqnhCfKgw==",
   "success": true,
   "projectFilePath": "C:\\Users\\parsa\\source\\repos\\WebLogApi\\WeblogApp\\WeblogApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\parsa\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\parsa\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\parsa\\.nuget\\packages\\mailkit\\3.2.0\\mailkit.3.2.0.nupkg.sha512",
+    "C:\\Users\\parsa\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\6.0.25\\microsoft.aspnetcore.authentication.google.6.0.25.nupkg.sha512",
     "C:\\Users\\parsa\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.25\\microsoft.aspnetcore.authentication.jwtbearer.6.0.25.nupkg.sha512",
     "C:\\Users\\parsa\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.25\\microsoft.aspnetcore.cryptography.internal.6.0.25.nupkg.sha512",
     "C:\\Users\\parsa\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.25\\microsoft.aspnetcore.cryptography.keyderivation.6.0.25.nupkg.sha512",

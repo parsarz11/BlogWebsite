@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using WeblogApp.Model;
 using WeblogApp.Model.DTOs.AccountingDTO;
 
@@ -16,7 +17,6 @@ namespace WeblogApp.Services.userAccounting
         public void forgetPassword(string email);
         public void ResetPassword(resetPasswordDTO resetPasswordDTO);
 
-        public void GenTwoFactorCode(string userName);
-        public void TwoFactorauthconfirm(twoFactorAuthDTO authDTO);
+        public ChallengeResult ExternalLogin();
     }
 }

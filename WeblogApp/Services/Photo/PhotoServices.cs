@@ -24,7 +24,7 @@ namespace WeblogApp.Services.Photo
 
         public bool PhotoUpload(FileUploadModel fileUploadModel)
         {
-            bool isUpploaded = _photoFile.UploadPhoto(fileUploadModel);
+            bool isUpploaded = _photoFile.UploadPhoto(fileUploadModel).Result;
             return isUpploaded;
         }
         public int FindPhotoIdByName(string name)

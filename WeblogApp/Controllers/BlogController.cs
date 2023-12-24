@@ -71,7 +71,7 @@ namespace WeblogApp.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<IActionResult> UploadPhoto([FromForm]FileUploadModel photo)
+        public IActionResult UploadPhoto([FromForm]FileUploadModel photo)
         {
             bool isUploaded = _photoServices.PhotoUpload(photo);
             return Ok(isUploaded);

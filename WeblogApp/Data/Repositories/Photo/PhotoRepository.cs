@@ -20,7 +20,7 @@ namespace WeblogApp.Data.Repositories.Photo
             return photoList;
         }
 
-        public bool UploadPhoto(FileUploadModel photoModel)
+        public async Task<bool> UploadPhoto(FileUploadModel photoModel)
         {
             var photos = DownloadPhotos();
             bool isExist = photos.Any(x => x.FileName == photoModel.FileName);
@@ -40,9 +40,9 @@ namespace WeblogApp.Data.Repositories.Photo
                 photoFile.Photo = stream.ToArray();
             }
 
-            _blogDbContext.PhotoFiles.AddAsync(photoFile);
+            await _blogDbContext.PhotoFiles.AddAsync(photoFile);
 
-            _blogDbContext.SaveChangesAsync();
+            await _blogDbContext.SaveChangesAsync();
             
             return true;
             

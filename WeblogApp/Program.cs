@@ -76,6 +76,10 @@ builder.Services.AddAuthentication(options =>
         //ValidateLifetime = bindJwtSettings.RequireExpirationTime,
         //ClockSkew = TimeSpan.FromDays(1),
     };
+}).AddGoogle(option =>
+{
+    option.ClientId = "175659099233-ehnv6u5aml7hbam2agibaitsll1usvf2.apps.googleusercontent.com ";
+    option.ClientSecret = "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";
 });
 
 

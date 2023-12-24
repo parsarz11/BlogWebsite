@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -33,7 +34,7 @@ namespace WeblogApp.Services.userAccounting
             {
                 UserName = identityUser.UserName,
                 Email = identityUser.Email,
-                TwoFactorEnabled = true,
+                //TwoFactorEnabled = true,
             };
             var result = _userManager.CreateAsync(user, identityUser.Password).Result;
             var role = _userManager.AddToRoleAsync(user,"User").Result;
@@ -48,9 +49,9 @@ namespace WeblogApp.Services.userAccounting
 
                 throw ex;
             }
-            var mailToken = _userManager.GenerateEmailConfirmationTokenAsync(user).Result;
-            string callbackUrl = identityUser.domainName+"/confirmEmail.html" + "?userId=" + user.Id + "&" + "token=" + mailToken;
-            _mailServices.SendEmail(callbackUrl, user.Email);
+            //var mailToken = _userManager.GenerateEmailConfirmationTokenAsync(user).Result;
+            //string callbackUrl = identityUser.domainName+"/confirmEmail.html" + "?userId=" + user.Id + "&" + "token=" + mailToken;
+            //_mailServices.SendEmail(callbackUrl, user.Email);
 
             TokenGenModel tokenGenModel = new TokenGenModel()
             {
@@ -173,6 +174,6 @@ namespace WeblogApp.Services.userAccounting
             }
         }
 
-
+      
     }
 }

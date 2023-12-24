@@ -49,7 +49,11 @@ namespace WeblogApp.Controllers
             _userAccounting.ResetPassword(passwordDTO);
             return Ok();
         }
-
-        
+        [HttpGet]
+        public IActionResult googleLogin()
+        {
+            //_userAccounting.ExternalLogin();
+            return Ok(_userAccounting.ExternalLogin());
+        }
     }
 }
