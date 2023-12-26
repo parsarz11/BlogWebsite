@@ -17,6 +17,6 @@ namespace WeblogApp.Services.userAccounting
         public void forgetPassword(string email);
         public void ResetPassword(resetPasswordDTO resetPasswordDTO);
 
-        public ChallengeResult ExternalLogin();
+       
     }
 }

@@ -44,6 +44,71 @@ namespace WeblogApp.Services.Blog
 
         }
 
+        public void AddBlog(FileUploadModel fileUploadModel)
+        {
+            Byte[] file;
+            using (var stream = new MemoryStream())
+            {
+                fileUploadModel.file.CopyTo(stream);
+                file = stream.ToArray();
+            }
+
+            string blogString = System.Text.Encoding.Default.GetString(file);
+
+
+            var splitedBlog = blogString.Split(",,", StringSplitOptions.TrimEntries);
+
+
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            foreach (var item in splitedBlog)
+            {
+                //Console.WriteLine(item);
+
+                int titleIndex = item.IndexOf("=");
+                if (titleIndex == -1)
+                {
+                    continue;
+                }
+
+                string key = item.Substring(0, titleIndex);
+                string value = item.Substring(titleIndex + 1);
+                dictionary.Add(key, value);
+
+            }
+
+            CreateBlogDTO blogDTO = new CreateBlogDTO();
+            var splitedCategories = new List<string>();
+
+            foreach (var item in dictionary)
+            {
+                if (item.Key.ToLower() == "title")
+                {
+                    blogDTO.Title = item.Value;
+                }
+                if (item.Key.ToLower() == "article")
+                {
+                    blogDTO.Article = item.Value;
+                }
+                if (item.Key.ToLower() == "author")
+                {
+                    blogDTO.Author = item.Value;
+                }
+                if (item.Key.ToLower() == "photoname")
+                {
+                    blogDTO.photoName = item.Value;
+                }
+                if (item.Key.ToLower() == "categories")
+                {
+                    splitedCategories = item.Value.Split(",", StringSplitOptions.TrimEntries).ToList();
+
+                }
+            }
+
+            AddBlog(blogDTO);
+
+            _CategoryServices.AddCategoriesToBlog(0, splitedCategories);
+        }
+
         public void DeleteBlog(int Id)
         {
             _BlogData.DeleteBlog(Id);
@@ -102,70 +167,10 @@ namespace WeblogApp.Services.Blog
         }
 
 
-        public void AddBlogByFile(FileUploadModel fileUploadModel)
-        {
-
-            Byte[] file;
-            using (var stream = new MemoryStream())
-            {
-                fileUploadModel.file.CopyTo(stream);
-                file = stream.ToArray();
-            }
-
-            string blogString = System.Text.Encoding.Default.GetString(file);
+        //public void AddBlogByFile(FileUploadModel fileUploadModel)
+        //{
 
             
-            var splitedBlog = blogString.Split(",,", StringSplitOptions.TrimEntries);
-
-
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            foreach (var item in splitedBlog)
-            {
-                //Console.WriteLine(item);
-
-                int titleIndex = item.IndexOf("=");
-                if (titleIndex == -1)
-                {
-                    continue;
-                }
-
-                string key = item.Substring(0, titleIndex);
-                string value = item.Substring(titleIndex + 1);
-                dictionary.Add(key, value);
-
-            }
-
-            CreateBlogDTO blogDTO = new CreateBlogDTO();
-            var splitedCategories = new List<string>();
-
-            foreach (var item in dictionary)
-            {
-                if (item.Key.ToLower() == "title")
-                {
-                    blogDTO.Title = item.Value;
-                }
-                if (item.Key.ToLower() == "article")
-                {
-                    blogDTO.Article = item.Value;
-                }
-                if (item.Key.ToLower() == "author")
-                {
-                    blogDTO.Author = item.Value;
-                }
-                if(item.Key.ToLower() == "photoname")
-                {
-                    blogDTO.photoName = item.Value;
-                }
-                if (item.Key.ToLower() == "categories")
-                {
-                    splitedCategories = item.Value.Split(",", StringSplitOptions.TrimEntries).ToList();
-                    
-                }
-            }
-
-            AddBlog(blogDTO);
-
-            _CategoryServices.AddCategoriesToBlog(0, splitedCategories);
-        }
+        //}
     }
 }
